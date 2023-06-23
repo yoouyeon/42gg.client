@@ -36,8 +36,8 @@ Cypress.Commands.add('logout', (username: string) => {
   // step 1. 42gg logout
   cy.visit(Cypress.env('HOME'));
   cy.origin(Cypress.env('HOME'), () => {
-    cy.get('[class^=Header_headerLeft]').click();
-    cy.get('div[id^=MenuBar_logout] > div').contains('로그아웃').click();
+    cy.get('[class^=Header_menuIcon]').click();
+    cy.get('[class^=MenuBar_logout]').children('div').click();
     cy.get('div[class^=LogoutModal_positive] > input[type=button]').click();
   });
   // step 2. intra logout
