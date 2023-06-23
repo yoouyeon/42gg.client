@@ -11,62 +11,62 @@ describe('헤더 테스트 🥳', () => {
     });
   });
 
-  // it('햄버거 버튼 랜더링 테스트 🍔 - 어드민 유저', () => {
-  //   cy.origin(Cypress.env('HOME'), () => {
-  //     cy.get('[class^=Header_menuIcon]').click();
-  //     // 버튼을 눌렀을 때 메뉴가 랜더링 되는지 확인
-  //     cy.get('[class^=MenuBar_container').should('exist');
-  //     // 어드민 유저이므로 관리자 버튼이 있는지 확인
-  //     cy.get('[id^=MenuBar_logout').should('contain', '관리자');
-  //   });
-  // });
+  it('햄버거 버튼 랜더링 테스트 🍔 - 어드민 유저', () => {
+    cy.origin(Cypress.env('HOME'), () => {
+      cy.get('[class^=Header_menuIcon]').click();
+      // 버튼을 눌렀을 때 메뉴가 랜더링 되는지 확인
+      cy.get('[class^=MenuBar_container').should('exist');
+      // 어드민 유저이므로 관리자 버튼이 있는지 확인
+      cy.get('[id^=MenuBar_logout').should('contain', '관리자');
+    });
+  });
 
-  // it('햄버거 버튼 기능 테스트 🍔 - 건의하기', () => {
-  //   cy.intercept(`${Cypress.env('SERVER_ENDPOINT')}/pingpong/feedback`).as(
-  //     'feedbackApi'
-  //   );
-  //   cy.origin(Cypress.env('HOME'), () => {
-  //     cy.get('[class^=Header_menuIcon]').click();
-  //     // 1. 건의하기 버튼 누르기 -> 모달이 떠야 한다.
-  //     cy.get('[class^=MenuBar_menuText').contains('건의하기').click();
-  //     cy.get('[class^=ReportModal_container]').should('exist');
-  //     const sendButton = cy.get('input[type=button][value=보내기]');
-  //     // 2. 기타 버튼 클릭 - 체크되는지 확인 (?)
-  //     cy.get('input[id^=ETC]').click();
-  //     cy.get('input[id^=ETC]').should('be.checked');
-  //     // 3. 300자 이상 입력해보기 -> 그 이상은 입력되면 안됨.
-  //     const longText = 'a'.repeat(300) + 'bbb';
-  //     const textArea = cy.get('textarea[name^=content]');
-  //     textArea.type(longText);
-  //     textArea.should('have.value', longText.slice(0, 300));
-  //     // 4. 빈 칸 보내보기 -> alert 내용 확인
-  //     textArea.clear();
-  //     cy.wait(500);
-  //     sendButton.click();
-  //     // TODO : alert 확인
-  //     // cy.on('window:alert', (alertContent) => {
-  //     //   expect(alertContent).to.contains('마음을 담아 의견을 보내주세요 ❤️');
-  //     // });
-  //     // 5. 정상적인 건의는 보내져야 한다.
-  //     const suggestion = '이것은 테스트. 화이팅 (ว˙∇˙)ง';
-  //     textArea.type(suggestion);
-  //     sendButton.click();
-  //     // TODO : alert 확인
-  //     // cy.on('window:alert', (alertContent) => {
-  //     //   expect(alertContent).to.contains('의견 주셔서 감사합니다 ❤️');
-  //     // });
-  //     cy.wait('@feedbackApi').then((interception) => {
-  //       const category = interception.request.body.category;
-  //       const content = interception.request.body.content;
-  //       // 요청 내용이 적절한지 확인
-  //       expect(category).to.equal('ETC');
-  //       expect(content).to.equal(suggestion);
-  //       // 보낸 이후에 메뉴바와 모달이 모두 사라지는지 확인
-  //       // cy.get('[class^=MenuBar_container').should('not.exist');
-  //       cy.get('[class^=Modal_modalContainer]').should('not.exist');
-  //     });
-  //   });
-  // });
+  it('햄버거 버튼 기능 테스트 🍔 - 건의하기', () => {
+    cy.intercept(`${Cypress.env('SERVER_ENDPOINT')}/pingpong/feedback`).as(
+      'feedbackApi'
+    );
+    cy.origin(Cypress.env('HOME'), () => {
+      cy.get('[class^=Header_menuIcon]').click();
+      // 1. 건의하기 버튼 누르기 -> 모달이 떠야 한다.
+      cy.get('[class^=MenuBar_menuText').contains('건의하기').click();
+      cy.get('[class^=ReportModal_container]').should('exist');
+      const sendButton = cy.get('input[type=button][value=보내기]');
+      // 2. 기타 버튼 클릭 - 체크되는지 확인 (?)
+      cy.get('input[id^=ETC]').click();
+      cy.get('input[id^=ETC]').should('be.checked');
+      // 3. 300자 이상 입력해보기 -> 그 이상은 입력되면 안됨.
+      const longText = 'a'.repeat(300) + 'bbb';
+      const textArea = cy.get('textarea[name^=content]');
+      textArea.type(longText);
+      textArea.should('have.value', longText.slice(0, 300));
+      // 4. 빈 칸 보내보기 -> alert 내용 확인
+      textArea.clear();
+      cy.wait(500);
+      sendButton.click();
+      // TODO : alert 확인
+      cy.on('window:alert', (alertContent) => {
+        expect(alertContent).to.equal('마음을 담아 의견을 보내주세요 ❤️');
+      });
+      // 5. 정상적인 건의는 보내져야 한다.
+      const suggestion = '이것은 테스트. 화이팅 (ว˙∇˙)ง';
+      textArea.type(suggestion);
+      sendButton.click();
+      // // TODO : alert 확인
+      cy.on('window:alert', (alertContent) => {
+        expect(alertContent).to.equal('의견 주셔서 감사합니다 ❤️');
+      });
+      cy.wait('@feedbackApi').then((interception) => {
+        const category = interception.request.body.category;
+        const content = interception.request.body.content;
+        // 요청 내용이 적절한지 확인
+        expect(category).to.equal('ETC');
+        expect(content).to.equal(suggestion);
+        // 보낸 이후에 메뉴바와 모달이 모두 사라지는지 확인
+        cy.get('[class^=MenuBar_container').should('not.exist');
+        cy.get('[class^=Modal_modalContainer]').should('not.exist');
+      });
+    });
+  });
 
   // it('Noti 기능 테스트 🔔', () => {
   //   const noti = '테스트용 알림 ୧(﹒︠ᴗ﹒︡)୨';
@@ -170,16 +170,16 @@ describe('헤더 테스트 🥳', () => {
   //   });
   // });
 
-  it('햄버거 버튼 랜더링 테스트 🍔 - 일반 유저', () => {
-    cy.logout(Cypress.env('ADMIN_USERNAME'));
-    cy.login(Cypress.env('NORMAL_USERNAME'), Cypress.env('NORMAL_PASSWORD'));
-    cy.wait(1000);
-    cy.origin(Cypress.env('HOME'), () => {
-      cy.get('[class^=Header_menuIcon]').click();
-      // 일반 유저에게는 관리자 메뉴가 보이면 안된다.
-      cy.get('[class^=MenuBar_adminMenu').should('not.contain', '관리자');
-    });
-  });
+  // it('햄버거 버튼 랜더링 테스트 🍔 - 일반 유저', () => {
+  //   cy.logout(Cypress.env('ADMIN_USERNAME'));
+  //   cy.login(Cypress.env('NORMAL_USERNAME'), Cypress.env('NORMAL_PASSWORD'));
+  //   cy.wait(1000);
+  //   cy.origin(Cypress.env('HOME'), () => {
+  //     cy.get('[class^=Header_menuIcon]').click();
+  //     // 일반 유저에게는 관리자 메뉴가 보이면 안된다.
+  //     cy.get('[class^=MenuBar_container').should('not.contain', '[class^=MenuBar_adminMenu]');
+  //   });
+  // });
 
   // TODO : 공지사항 버튼 (헤더 확성기 아이콘) 테스트 필요
   // TODO : 공지사항 버튼 (햄버거 메뉴 내) 테스트 필요

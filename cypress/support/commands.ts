@@ -37,7 +37,7 @@ Cypress.Commands.add('logout', (username: string) => {
   cy.visit(Cypress.env('HOME'));
   cy.origin(Cypress.env('HOME'), () => {
     cy.get('[class^=Header_menuIcon]').click();
-    cy.get('[class^=MenuBar_logout]').children('div').click();
+    cy.get('[class^=MenuBar_logout]').children('svg').click();
     cy.get('div[class^=LogoutModal_positive] > input[type=button]').click();
   });
   // step 2. intra logout
