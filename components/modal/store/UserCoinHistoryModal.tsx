@@ -25,7 +25,7 @@ export default function UserCoinHistoryModal({ coin }: ICoin) {
       <div className={styles.balance}>
         <div>현재 코인</div>
         <div className={styles.currentCoin}>
-          {coin} &nbsp;
+          {coin.toLocaleString()} &nbsp;
           <FaCoins />
         </div>
       </div>

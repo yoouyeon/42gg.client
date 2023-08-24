@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { ICoinHistoryTable } from 'types/userTypes';
+// import { instance } from 'utils/axios';
 import { mockInstance } from 'utils/mockAxios';
 import { errorState } from 'utils/recoil/error';
 import CoinHistoryDetails from 'components/modal/store/CoinHistoryDetails';
@@ -34,6 +35,21 @@ export default function CoinHistoryContainer() {
       setError('HB03');
     }
   };
+
+  // const getCoinHistoryList = async () => {
+  //   try {
+  //     const res = await instance.get(
+  //       `pingpong/users/coins/?page=${currentPage}&size=5`
+  //     );
+  //     setCoinHistoryList({
+  //       useCoinList: res.data.useCoinList,
+  //       totalPage: res.data.totalPage,
+  //       currentPage: currentPage,
+  //     });
+  //   } catch (error) {
+  //     setError('HB03');
+  //   }
+  // };
 
   return (
     <div className={styles.container}>
